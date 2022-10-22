@@ -2,11 +2,13 @@ name: CI build action
 
 on:
   pull_request:
+  pull:
+    branches: ['ruby-3.0']
 
 jobs:
   build:
     name: Build changed OS packages (CI)
-    runs-on: ubuntu-16-core
+    runs-on: ubuntu-latest
 
     permissions:
       packages: write
