@@ -15,7 +15,9 @@ define build-package
 
 packages/${ARCH}/$(1)-$(2).apk: ${KEY}
 	mkdir -p ./$(1)/
-	${MELANGE} build $(1).yaml ${MELANGE_OPTS} --source-dir ./$(1)/
+	fn=$(1).yaml
+	if [ ! -z "$(3)" ]; then fn=$(3); fi
+	${MELANGE} build ${fn} ${MELANGE_OPTS} --source-dir ./$(1)/
 
 PACKAGES += packages/${ARCH}/$(1)-$(2).apk
 
@@ -133,8 +135,8 @@ $(eval $(call build-package,s6,2.11.1.2-r0))
 $(eval $(call build-package,libretls,3.5.2-r0))
 $(eval $(call build-package,grype,0.50.2-r0))
 $(eval $(call build-package,trivy,0.32.0-r0))
-$(eval $(call build-package,ruby,3.1.2-r0))
-$(eval $(call build-package,ruby,3.0.4-r0))
+$(eval $(call build-package,ruby,3.1.2-r0,ruby-3.1.yaml))
+$(eval $(call build-package,ruby,3.0.4-r0,ruby-3.0.yaml))
 $(eval $(call build-package,rust-stage0,1.64.0-r0))
 $(eval $(call build-package,meson,0.63.3-r0))
 $(eval $(call build-package,libcap,2.26-r0))
