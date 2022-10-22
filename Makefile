@@ -17,7 +17,7 @@ packages/${ARCH}/$(1)-$(2).apk: ${KEY}
 	mkdir -p ./$(1)/
 	fn=$(1).yaml
 	if [ ! -z "$(3)" ]; then fn=$(3); fi
-	${MELANGE} build ${fn} ${MELANGE_OPTS} --source-dir ./$(1)/
+	${MELANGE} build $(fn) ${MELANGE_OPTS} --source-dir ./$(1)/
 
 PACKAGES += packages/${ARCH}/$(1)-$(2).apk
 
