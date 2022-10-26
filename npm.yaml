@@ -1,0 +1,37 @@
+package:
+  name: npm
+  version: 9.0.0
+  epoch: 0
+  description: "The package manager for JavaScript"
+  target-architecture:
+    - all
+  copyright:
+    - paths:
+      - "*"
+      attestation: TODO
+      license: Artistic-2.0
+  dependencies:
+    runtime:
+      - nodejs
+      - ca-certificates-bundle
+
+environment:
+  contents:
+    packages:
+      - busybox
+      - ca-certificates-bundle
+
+pipeline:
+  - uses: fetch
+    with:
+      uri: https://registry.npmjs.org/npm/-/npm-${{package.version}}.tgz
+      expected-sha512: 61a28a7ea9411731ee7de0e1dd1f96c17a7aed028dd6761999fc852b06c049445b2433eee1996a7eb9d08980ad09dc9ed6c02907baf7ec9f6daa2c7fbc712ef3
+  - name: Configure and build
+    runs: |
+        mkdir -p ${{targets.destdir}}/usr/bin
+        mv lib/node_modules/npm/bin/npm-cli.js ${{targets.destdir}}/usr/bin/npm
+        mv lib/node_modules/npm/bin/npx-cli.js ${{targets.destdir}}/usr/bin/npx
+        mv lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js ${{targets.destdir}}/usr/bin/node-gyp
+
+        mkdir -p ${{targets.destdir}}/usr/share/licenses/${{package.name}}
+        mv LICENSE ${{targets.destdir}}/usr/share/licenses/${{package.name}}/
