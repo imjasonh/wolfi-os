@@ -1,0 +1,28 @@
+package:
+  name: bundler
+  version: 2.4.2
+  epoch: 0
+  description: TODO
+  target-architecture:
+    - all
+  copyright:
+    - paths:
+        - "*"
+      attestation: TODO
+      license: BSD-3-Clause
+  dependencies:
+    runtime:
+      - ruby-3.2
+
+environment:
+  contents:
+    repositories:
+      - https://packages.wolfi.dev/os
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+
+pipeline:
+  - uses: gem/install
+    with:
+      package: bundler
+      version: ${{package.version}}

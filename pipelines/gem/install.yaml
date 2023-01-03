@@ -1,0 +1,24 @@
+name: Install a Ruby Gem
+
+needs:
+  packages:
+    - ruby-3.2
+    - busybox
+    - ca-certificates-bundle
+
+inputs:
+  package:
+    description: Gem to install
+    required: true
+
+  version:
+    description: Version of the gem to install
+    required: false
+
+pipeline:
+  - runs: |
+      gem install ${{inputs.package}} --version=${{inputs.version}}
+
+      DIR=/usr/lib/ruby/gems/3.2.0
+      mkdir -p ${{targets.destdir}}/${DIR}/
+      mv ${DIR}/ ${{targets.destdir}}/${DIR}/
