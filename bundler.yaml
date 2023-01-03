@@ -9,7 +9,7 @@ package:
     - paths:
         - "*"
       attestation: TODO
-      license: BSD-3-Clause
+      license: MIT
   dependencies:
     runtime:
       - ruby-3.2
