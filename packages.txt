@@ -113,6 +113,7 @@ go-fips-1.19
 go-1.20
 go-fips-1.20
 go-1.21
+go-fips-1.21
 git-lfs
 openssh
 skalibs
@@ -128,7 +129,6 @@ rust-stage0
 http-parser
 libssh2
 libgit2
-meson
 wasi-libc
 rust
 deno

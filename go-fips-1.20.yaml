@@ -13,9 +13,6 @@ package:
       - bash
       - binutils-gold # Needed for cgo linking due to upstream issue #15696 which forces use of the gold linker.
       - openssl-dev # Needed for building against cryptographic packages.
-      # The first time this is built, it depends on go-stage0.yaml being built first,
-      # using pre-built go binaries, which `provides` a go package at an earlier version.
-      # Afterwards it depends on previous versions of this package built from source.
       - '!go-1.20'
 
 environment:
@@ -25,6 +22,9 @@ environment:
       - ca-certificates-bundle
       - build-base
       - bash
+      # The first time this is built, it depends on go-stage0.yaml being built first,
+      # using pre-built go binaries, which `provides` a go package at an earlier version.
+      # Afterwards it depends on previous versions of this package built from source.
       - go
       - openssl-dev
 

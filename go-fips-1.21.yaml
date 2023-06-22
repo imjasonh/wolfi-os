@@ -1,16 +1,18 @@
 package:
-  name: go-1.21
+  name: go-fips-1.21
   version: 1.21_rc2
   epoch: 0
-  description: "the Go programming language"
+  description: "the Go programming language with OpenSSL cryptography"
   copyright:
     - license: BSD-3-Clause
   dependencies:
-    # TODO: When this is the latest real release, have it provides go=1.21.0
+    # TODO: When this is the latest real release, have it provides go-fips=1.21.0
     runtime:
       - build-base
       - bash
       - binutils-gold # Needed for cgo linking due to upstream issue #15696 which forces use of the gold linker.
+      - openssl-dev # Needed for building against cryptographic packages.
+      - '!go-1.21'
 
 environment:
   contents:
@@ -23,6 +25,7 @@ environment:
       # using pre-built go binaries, which `provides` a go package at an earlier version.
       # Afterwards it depends on previous versions of this package built from source.
       - go
+      - openssl-dev
 
 # transform version to remove underscore so we can use a var in the fetch URL
 var-transforms:
@@ -37,6 +40,15 @@ pipeline:
       uri: https://go.dev/dl/go${{vars.mangled-package-version}}.src.tar.gz
       expected-sha256: 91596dce22d91f2d7be6d2b49829f39bdd8573e777d95c1b3c6b0d42b613076e
       strip-components: 0
+
+  - working-directory: /home/build/go
+    pipeline:
+      - uses: patch
+        with:
+          patches: /home/build/000-initial-setup.patch
+      - uses: patch
+        with:
+          patches: /home/build/001-initial-openssl-for-fips.patch
 
   - runs: |
       cd go/src
@@ -77,7 +89,7 @@ pipeline:
   - uses: strip
 
 subpackages:
-  - name: "go-1.21-doc"
+  - name: "go-fips-1.20-doc"
     description: "go documentation"
     pipeline:
       - runs: |
@@ -90,5 +102,5 @@ update:
   github:
     identifier: golang/go
     strip-prefix: go
-    tag-filter: go1.21
+    tag-filter: go1.20
     use-tag: true
