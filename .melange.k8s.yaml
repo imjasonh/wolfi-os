@@ -1,0 +1,10 @@
+provider: gke
+resources:
+  cpu: 10
+  memory: 20Gi
+  ephemeral-storage: 10Gi
+repo: gcr.io/jason-chainguard/wolfi-os-builds
+podTemplate:
+  nodeSelector:
+    cloud.google.com/gke-spot: "true"
+    "cloud.google.com/compute-class": "Balanced"
