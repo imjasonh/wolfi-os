@@ -33,7 +33,7 @@ pipeline:
   - working-directory: ${{package.name}}
     pipeline:
       - runs: |
-          set -x
+          set -ex
 
           export PULUMI_VERSION="v${{package.version}}"
           export PULUMI_ROOT="$(mktemp -d)"
@@ -60,17 +60,11 @@ pipeline:
               go get google.golang.org/grpc@v1.58.3 && \
               go mod tidy && \
               cd ..
-            cd cmd/pulumi-language-${lang} && \
-              # Remediate GHSA-m425-mq94-257g
-              go get google.golang.org/grpc@v1.58.3 && \
-              go mod tidy && \
-              cd ../..
 
             make build
 
             # "make install_package" is needed for all SDKs except Go
             [[ "${lang}" == "go" ]] || make install_package
-
 
             # Remove .cmd files only used on Windows
             rm -f "${PULUMI_ROOT}"/bin/*.cmd
