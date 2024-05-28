@@ -15,7 +15,7 @@ environment:
       - build-base
       - busybox
       - ca-certificates-bundle
-      - e2fsprogs-dev
+      - e2fsprogs-dev~1.47.0
       - eudev-dev
       - libgcrypt-dev
       - linux-headers
